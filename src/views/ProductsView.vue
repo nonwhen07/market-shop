@@ -1,7 +1,7 @@
 <template>
   <div class="text-end">
     <button type="button" class="btn btn-primary"
-      @click="openModal">
+      @click="openModal(true)">
       新增一個產品
     </button>
   </div>
@@ -32,7 +32,8 @@
         </td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm">編輯</button>
+            <button class="btn btn-outline-primary btn-sm"
+              @click="openModal(false, item)">編輯</button>
             <button class="btn btn-outline-danger btn-sm">刪除</button>
           </div>
         </td>
@@ -51,7 +52,8 @@ export default {
     return {
       products: [],
       pagination: {},
-      tempProduct: {}
+      tempProduct: {},
+      isNew: false
     }
   },
   components: {
@@ -66,21 +68,34 @@ export default {
           this.pagination = res.data.pagination
         })
     },
-    openModal () {
-      this.tempProduct = {}
+    openModal (isNew, item) {
+      if (isNew) {
+        this.tempProduct = {}
+      } else {
+        this.tempProduct = { ...item }
+      }
+      // 確認狀態:新增/編輯
+      this.isNew = isNew
       const productComponent = this.$refs.productModal
       productComponent.showModal()
     },
     updateProduct (item) {
-      console.log(item)
-      // this.tempProduct = item
+      this.tempProduct = item
       // const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`
-      // const productComponent = this.$refs.productModal
-      // this.$http.post(api, { data: this.productComponent }).then((res) => {
-      //   console.log(res)
-      //   productComponent.hideModal()
-      //   this.getProducts()
-      // })
+      // 新增
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`
+      let httpMethod = 'post'
+      // 編輯
+      if (!this.isNew) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`
+        httpMethod = 'put'
+      }
+      const productComponent = this.$refs.productModal
+      this.$http[httpMethod](api, { data: this.tempProduct }).then((res) => {
+        // console.log(res)
+        productComponent.hideModal()
+        this.getProducts()
+      })
     }
   },
   created () {
