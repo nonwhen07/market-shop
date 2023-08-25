@@ -34,19 +34,26 @@
           <div class="btn-group">
             <button class="btn btn-outline-primary btn-sm"
               @click="openModal(false, item)">編輯</button>
-            <button class="btn btn-outline-danger btn-sm">刪除</button>
+            <button class="btn btn-outline-danger btn-sm"
+              @click="openDeleteProductModal(item)">刪除</button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
-<ProductModal ref="productModal"
-  :product="tempProduct"
-  @update-product="updateProduct"></ProductModal>
+  <ProductModal ref="productModal"
+    :product="tempProduct"
+    @update-product="updateProduct"></ProductModal>
+
+  <DeleteModal ref="delModal"
+    :item="tempProduct"
+    @del-item="deleteProduct"></DeleteModal>
 </template>
 
 <script>
 import ProductModal from '../components/ProductModal.vue'
+import DeleteModal from '@/components/DeleteModal.vue'
+
 export default {
   data () {
     return {
@@ -57,7 +64,8 @@ export default {
     }
   },
   components: {
-    ProductModal
+    ProductModal,
+    DeleteModal
   },
   methods: {
     getProducts () {
@@ -94,6 +102,21 @@ export default {
       this.$http[httpMethod](api, { data: this.tempProduct }).then((res) => {
         // console.log(res)
         productComponent.hideModal()
+        this.getProducts()
+      })
+    },
+    openDeleteProductModal (item) {
+      this.tempProduct = { ...item }
+      const deleteProductComponent = this.$refs.delModal
+      deleteProductComponent.showModal()
+    },
+    deleteProduct () {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`
+      const httpMethod = 'delete'
+      const deleteComponent = this.$refs.delModal
+      this.$http[httpMethod](api).then((res) => {
+        // console.log('deleteProduct res : ', res)
+        deleteComponent.hideModal()
         this.getProducts()
       })
     }
