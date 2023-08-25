@@ -119,7 +119,10 @@
 
 <script>
 // 因為這部分元件只需要bootstrap的modal方法，所以不需要全部載出來
-import Modal from 'bootstrap/js/dist/modal'
+// 將重複的內容移至 modalMixin.js
+// import Modal from 'bootstrap/js/dist/modal'
+
+import modalMixin from '@/mixins/modalMixin'
 
 export default {
   props: {
@@ -140,12 +143,12 @@ export default {
     }
   },
   methods: {
-    showModal () {
-      this.modal.show()
-    },
-    hideModal () {
-      this.modal.hide()
-    },
+    // showModal () {
+    //   this.modal.show()
+    // },
+    // hideModal () {
+    //   this.modal.hide()
+    // },
     uploadFile () {
       const uploadFile = this.$refs.fileInput.files[0]
       const formData = new FormData()
@@ -159,11 +162,12 @@ export default {
       })
     }
   },
-  mounted () {
-    // var myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
-    // 指向外層的 ref dom 元素
-    this.modal = new Modal(this.$refs.modal)
-  }
+  mixins: [modalMixin]
+  // mounted () {
+  //   // var myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
+  //   // 指向外層的 ref dom 元素
+  //   this.modal = new Modal(this.$refs.modal)
+  // }
 
 }
 </script>
