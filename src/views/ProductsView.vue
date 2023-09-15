@@ -1,4 +1,5 @@
 <template>
+  <isLoading :active="isLoading"></isLoading>
   <div class="text-end">
     <button type="button" class="btn btn-primary"
       @click="openModal(true)">
@@ -60,7 +61,8 @@ export default {
       products: [],
       pagination: {},
       tempProduct: {},
-      isNew: false
+      isNew: false,
+      isLoading: false
     }
   },
   components: {
@@ -70,10 +72,12 @@ export default {
   methods: {
     getProducts () {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`
+      this.isLoading = true
       this.$http.get(api)
         .then((res) => {
           this.products = res.data.products
           this.pagination = res.data.pagination
+          this.isLoading = false
         })
     },
     openModal (isNew, item) {
