@@ -9,24 +9,21 @@
       {{ msg.content }}
     </div>
   </div>
-
 </template>
 
 <script>
-import Toast from 'bootstrap/js/dist/toast'
-
+import Toast from 'bootstrap/js/dist/toast';
 export default {
   name: 'Toast',
   props: [
-    'msg'
+    'msg',
   ],
-  mounted () {
-    const toastEl = this.$refs.toast
+  mounted() {
+    const toastEl = this.$refs.toast;
     const toast = new Toast(toastEl, {
-      // 顯示6秒後消失
-      delay: 6000
-    })
-    toast.show()
-  }
-}
+      delay: 6000,
+    });
+    toast.show();
+  },
+};
 </script>

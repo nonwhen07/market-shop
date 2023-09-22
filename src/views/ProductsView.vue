@@ -42,10 +42,12 @@
       </tr>
     </tbody>
   </table>
+  <Pagination
+    :pages="pagination"
+    @emit-page="getProducts"></Pagination>
   <ProductModal ref="productModal"
     :product="tempProduct"
     @update-product="updateProduct"></ProductModal>
-
   <DeleteModal ref="delModal"
     :item="tempProduct"
     @del-item="deleteProduct"></DeleteModal>
@@ -54,6 +56,7 @@
 <script>
 import ProductModal from '@/components/ProductModal.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
+import Pagination from '@/components/Pagination.vue'
 
 export default {
   data () {
@@ -67,12 +70,13 @@ export default {
   },
   components: {
     ProductModal,
-    DeleteModal
+    DeleteModal,
+    Pagination
   },
   inject: ['emitter'],
   methods: {
-    getProducts () {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`
+    getProducts (page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`
       this.isLoading = true
       this.$http.get(api)
         .then((res) => {
@@ -104,21 +108,21 @@ export default {
         httpMethod = 'put'
       }
       const productComponent = this.$refs.productModal
-      this.$http[httpMethod](api, { data: this.tempProduct }).then((res) => {
-        // console.log(res)
+      this.$http[httpMethod](api, { data: this.tempProduct }).then((response) => {
+        console.log(response)
         productComponent.hideModal()
-        if (res.data.success) {
+        if (response.data.success) {
           this.getProducts()
           this.emitter.emit('push-message', {
             style: 'success',
-            title: '更新成功'
-          })
+            title: '更新成功',
+          });
         } else {
           this.emitter.emit('push-message', {
             style: 'danger',
             title: '更新失敗',
-            content: res.data.message.join('、')
-          })
+            content: response.data.message.join('、'),
+          });
         }
       })
     },

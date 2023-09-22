@@ -1,7 +1,6 @@
 <template>
   <Navbar></Navbar>
   <div class="container-fluid mt-3 position-relative">
-    dashboard
     <ToastMessages></ToastMessages>
     <router-view/>
   </div>
@@ -9,7 +8,7 @@
 
 <script>
 import Navbar from '../components/NavbarView.vue'
-import emitter from '@/methids/emitter'
+import emitter from '@/methods/emitter'
 import ToastMessages from '@/components/ToastMessages.vue'
 
 export default {
@@ -17,10 +16,10 @@ export default {
     Navbar,
     ToastMessages
   },
-  provide () {
+  provide() {
     return {
-      emitter
-    }
+      emitter,
+    };
   },
   created () {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)mshopToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
