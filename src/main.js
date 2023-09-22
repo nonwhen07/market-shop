@@ -5,9 +5,13 @@ import Loading from 'vue3-loading-overlay'
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
 import App from './App.vue'
 import router from './router'
+import { currency } from './methods/filters.js'
 
 // createApp(App).use(router).mount('#app')
 const app = createApp(App)
+app.config.globalProperties.$filters = {
+  currency
+};
 app.use(VueAxios, axios)
 app.use(router)
 app.component('isLoading', Loading)

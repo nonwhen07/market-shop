@@ -11,7 +11,10 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#/admin">dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/admin/products">products</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>

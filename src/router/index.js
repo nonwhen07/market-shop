@@ -21,11 +21,11 @@ const routes = [
     component: () => import('../views/LoginView.vue')
   },
   {
-    path: '/dashboard',
+    path: '/admin',
     component: () => import('../views/DashboardView.vue'),
     children: [
       {
-        path: '/products',
+        path: '/admin/products',
         component: () => import('../views/ProductsView.vue')
       }
     ]
