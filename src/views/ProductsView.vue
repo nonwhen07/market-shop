@@ -136,7 +136,6 @@ export default {
       const httpMethod = 'delete'
       const deleteComponent = this.$refs.delModal
       this.$http[httpMethod](api).then((res) => {
-        // console.log('deleteProduct res : ', res)
         deleteComponent.hideModal()
         this.getProducts()
       })

@@ -11,10 +11,16 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/admin">dashboard</a>
+            <a class="nav-link" href="#/admin">後台首頁</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/admin/products">products</a>
+            <a class="nav-link" href="#/admin/products">產品列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/admin/orders">訂單列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/admin/coupons">優惠卷</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>
